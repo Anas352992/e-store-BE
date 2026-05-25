@@ -7,10 +7,14 @@ import cartRoutes from "./routes/cartRoutes.js";
 import wishlistRoutes from "./routes/wishlistRoutes.js";
 
 const app = express();
+
+app.set("trust proxy", 1);
 app.use(
   cors({
     origin: "https://e-store-fe.vercel.app",
     credentials: true,
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
 app.use(express.json());
