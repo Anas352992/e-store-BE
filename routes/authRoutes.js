@@ -7,22 +7,14 @@ import rateLimit from "express-rate-limit";
 const router = express.Router();
 const JWT_TOKEN = process.env.JWT_TOKEN;
 const signupLimiter = rateLimit({
-  windowMs: 1 * 60 * 60 * 1000,
-  max: 5,
-  message: { message: "Too many attempts try again after 1 hour!" },
-  keyGenerator: (req) => {
-    console.log("IP:", req.ip);
-    return req.ip;
-  },
+  windowMs: 20 * 60 * 1000,
+  max: 10,
+  message: { message: "Too many attempts try again after 20 mins" },
 });
 const loginLimiter = rateLimit({
-  windowMs: 1 * 60 * 60 * 1000,
-  max: 5,
-  message: { message: "Too many attempts try again after 1 hour!" },
-  keyGenerator: (req) => {
-    console.log("IP:", req.ip);
-    return req.ip;
-  },
+  windowMs: 20 * 60 * 1000,
+  max: 10,
+  message: { message: "Too many attempts try again after 20 mins!" },
 });
 
 router.post("/signup", signupLimiter, async (req, res) => {
