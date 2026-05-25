@@ -9,7 +9,7 @@ import wishlistRoutes from "./routes/wishlistRoutes.js";
 const app = express();
 app.use(
   cors({
-    origin: "https://e-store-fe.vercel.app/",
+    origin: "https://e-store-fe.vercel.app",
     credentials: true,
   }),
 );
