@@ -10,11 +10,19 @@ const signupLimiter = rateLimit({
   windowMs: 1 * 60 * 60 * 1000,
   max: 5,
   message: { message: "Too many attempts try again after 1 hour!" },
+  keyGenerator: (req) => {
+    console.log("IP:", req.ip);
+    return req.ip;
+  },
 });
 const loginLimiter = rateLimit({
   windowMs: 1 * 60 * 60 * 1000,
   max: 5,
   message: { message: "Too many attempts try again after 1 hour!" },
+  keyGenerator: (req) => {
+    console.log("IP:", req.ip);
+    return req.ip;
+  },
 });
 
 router.post("/signup", signupLimiter, async (req, res) => {
