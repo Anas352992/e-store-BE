@@ -11,7 +11,7 @@ const app = express();
 app.set("trust proxy", 1);
 app.use(
   cors({
-    origin: "https://e-store-fe.vercel.app",
+    // origin: "https://e-store-fe.vercel.app",
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: ["Content-Type", "Authorization"],
