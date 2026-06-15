@@ -18,6 +18,14 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("MongoDB connected");
+  })
+  .catch((err) => {
+    console.log("Connection error:", err.message);
+  });
 app.use("/api/payments", Paymentsession);
 app.use(express.json());
 
