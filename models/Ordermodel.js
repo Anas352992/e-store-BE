@@ -2,23 +2,24 @@ import mongoose from "mongoose";
 
 const OrderSchema = new mongoose.Schema(
   {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+     userId: { type: String, required: true },
+    cartItems: [
+     {
+      id: Number,
+      name: String,
+      price: Number,
+      quantity: Number,
+      size: Number,
+      variant: { color: String, img: String },
     },
-    items: [
-      {
-        id: Number,
-        name: String,
-        price: String,
-        img: String,
-        quantity: Number,
-      },
     ],
-    province: { type: String, required: true },
-    city: { type: String, required: true },
-    address: { type: String, required: true },
+    fullAddress: {
+      province: { type: String, required: true },
+      city: { type: String, required: true },
+      address: { type: String, required: true },
+    },
+    stripeSessionId: { type: String, unique: true },
+    status: String,
   },
   { timestamps: true },
 );

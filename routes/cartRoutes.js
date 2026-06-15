@@ -9,13 +9,12 @@ router.post("/add", async (req, res) => {
     if (!authHeader)
       return res.status(401).json({ message: "You have no Token!" });
     const token = authHeader.split(" ")[1];
-    console.log(token);
     const tokenDecoded = jwt.verify(token, JWT_TOKEN);
 
     const { item } = req.body;
     const cart = await CartModel.findOne({ userId: tokenDecoded.userId });
 
-    const existing = cart.items.find((i) => i.id === item.id);
+    const existing = cart.items.find((i) => i.id === item.id && item.size === i.size && item.variant.color === i.variant.color);
     if (existing) {
       existing.quantity += 1;
     } else {
@@ -37,16 +36,16 @@ router.delete("/remove", async (req, res) => {
     const token = authHeader.split(" ")[1];
 
     const tokenDecoded = jwt.verify(token, JWT_TOKEN);
-    const { itemId } = req.body;
+    const { item } = req.body;
     const cart = await CartModel.findOne({ userId: tokenDecoded.userId });
 
-    const existing = cart.items.find((i) => i.id === itemId);
+    const existing = cart.items.find((i) => i.id === item.id && i.size === item.size && i.variant.color === item.variant.color);
     if (!existing) return res.status(404).json({ message: "Item not found" });
 
     if (existing.quantity > 1) {
       existing.quantity -= 1;
     } else {
-      cart.items = cart.items.filter((i) => i.id !== itemId);
+      cart.items = cart.items.filter((i) => !(i.id === item.id && i.size === item.size && i.variant.color === item.variant.color));
     }
 
     await cart.save();

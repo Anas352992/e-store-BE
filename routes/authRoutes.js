@@ -3,6 +3,7 @@ import express from "express";
 import UserModel from "../models/UserModel.js";
 import CartModel from "../models/CartModel.js";
 import WishlistModel from "../models/WishlistModel.js";
+import Ordermodel from "../models/Ordermodel.js";
 import rateLimit from "express-rate-limit";
 const router = express.Router();
 const JWT_TOKEN = process.env.JWT_TOKEN;
@@ -83,12 +84,14 @@ router.get("/verify", async (req, res) => {
     if (!user) return res.status(401).json({ message: "User not Found!" });
     const cart = await CartModel.findOne({ userId: user._id });
     const wishlist = await WishlistModel.findOne({ userId: user._id });
+    const Orders = await Ordermodel.find({userId: user._id});
     res.status(200).json({
       _id: user._id,
       userName: user.userName,
       userEmail: user.userEmail,
       cartItems: cart?.items || [],
       wishlistItems: wishlist?.items || [],
+      Orders,
     });
   } catch (err) {
     res.status(500).json({ message: err.message });

@@ -5,7 +5,7 @@ import OrderModel from "../models/Ordermodel.js";
 const router = express.Router();
 const JWT_TOKEN = process.env.JWT_TOKEN;
 
-router.post("/place", async (req, res) => {
+router.get("/getOrders", async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
     if (!authHeader)
@@ -13,26 +13,11 @@ router.post("/place", async (req, res) => {
 
     const token = authHeader.split(" ")[1];
     const tokenDecoded = jwt.verify(token, JWT_TOKEN);
-
-    const { items, province, city, address } = req.body;
-
-    if (!items || !province || !city || !address) {
-      return res.status(400).json({ message: "All fields are required!" });
-    }
-
-    const newOrder = new OrderModel({
-      userId: tokenDecoded.userId,
-      items,
-      province,
-      city,
-      address,
-    });
-
-    await newOrder.save();
-
+    const Orders = await OrderModel.find({ userId: tokenDecoded.userId });
+    if (!Orders) return;
     res
       .status(201)
-      .json({ message: "Order placed successfully!", order: newOrder });
+      .json( Orders );
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
