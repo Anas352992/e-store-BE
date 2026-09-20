@@ -20,7 +20,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
-v
+connectDB();
 app.use("/api/payments", Paymentsession);
 app.use(express.json());
 
