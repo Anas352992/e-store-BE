@@ -7,6 +7,8 @@ import cartRoutes from "./routes/cartRoutes.js";
 import wishlistRoutes from "./routes/wishlistRoutes.js";
 import Orderroutes from "./routes/Orderroutes.js";
 import Paymentsession from "./routes/Stripe.js";
+import connectDB from "./db.js";
+connectDB();
 const app = express();
 
 app.set("trust proxy", 1);
@@ -18,25 +20,9 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("MongoDB connected");
-  })
-  .catch((err) => {
-    console.log("Connection error:", err.message);
-  });
+
 app.use("/api/payments", Paymentsession);
 app.use(express.json());
-
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("MongoDB connected");
-  })
-  .catch((err) => {
-    console.log("Connection error:", err.message);
-  });
 
 app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
