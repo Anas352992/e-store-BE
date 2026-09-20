@@ -8,7 +8,7 @@ import wishlistRoutes from "./routes/wishlistRoutes.js";
 import Orderroutes from "./routes/Orderroutes.js";
 import Paymentsession from "./routes/Stripe.js";
 import connectDB from "./db.js";
-connectDB();
+
 const app = express();
 
 app.set("trust proxy", 1);
@@ -20,7 +20,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
-
+v
 app.use("/api/payments", Paymentsession);
 app.use(express.json());
 
